@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+
+    <script th:src="@{/jslib/vue.js}"></script>
+    <script th:src="@{/jslib/vue-resource.min.js}"></script>
+    <script th:src="@{/jslib/axios.min.js}"></script>
+    <script th:src="@{/jslib/ase.js}"></script>
+</head>
+<body>
+    <h1>USER MANAGER</h1>
+    <div id="app">
+        <table style="width:100%">
+            <tr>
+                <a th:href="@{create-user}">Add new User</a>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <th>DisplayName</th>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Active</th>
+            </tr>
+            <tr v-for="user in listUser">
+                <td>{{user.id}}</td>
+                <td>{{user.displayName}}</td>
+                <td>{{user.username}}</td>
+                <td>{{user.password}}</td>
+                <td>{{user.phone}}</td>
+                <td>{{user.email}}</td>
+                <td>
+                    <a th:href="@{edit-user}">Edit User</a>
+                    <a >Delete User</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <script th:src="@{/js/index.js}"></script>
+</body>
+</html>
