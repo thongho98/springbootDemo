@@ -12,7 +12,7 @@ var Product = new Vue({
             axios.post('http://localhost:8080/api/users', this.info,
             { 'headers':{'Content-Type': 'application/json'}})
             .then((response) => {
-                console.log(response.data);
+                console.log("Tạo thành công");
             })
          },
     }
