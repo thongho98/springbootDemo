@@ -19,19 +19,19 @@ var aseData = new Vue({
         });
       },
       fetchData: function (id) {
-          this.$http.get("http://localhost:8080/api/users/" + id)
+          this.$http.get("/api/users/" + id)
                    .then(response => {
                      this.info = response.data;
            })
        },
        updateData: function (id){
-           axios.put('http://localhost:8080/api/users/'+id, this.info,
+           axios.put('/api/users/'+id, this.info,
                        {'headers':{'Content-Type': 'application/json'}}
                        )
            .then((response) => {console.log(response.data);})
        },
       deleteData: function (id) {
-           this.$http.delete("http://localhost:8080/api/users/"+id);
+           this.$http.delete("/api/users/"+id);
            console.log("Success");
        },
       fMoTa(str) {
