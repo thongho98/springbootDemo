@@ -2,7 +2,9 @@ var aseData = new Vue({
     el: "#app",
 
     data: {
-      listUser: []
+      listUser: [],
+      info:{},
+      data:{}
     },
 
     created: function() {
@@ -16,25 +18,22 @@ var aseData = new Vue({
           for (i = 0; i < this.k; i++) listUser[i] = fMoTa(listUser[i]);
         });
       },
-      getOne: function(param) {
-        this.$http.get(aseUrl.listHot + param).then(response => {
-          var data;
-          //data = response.data.Data;
-          data = response.data;
-          this.listHot = data.splice(0, 1);
-        });
-      },
-
-      formatDay(value) {
-        if (value) {
-          return moment(String(value)).format("DD-MM-YY");
-        }
-      },
-      showValue(value) {
-        if (value != "") {
-          return ", " + value;
-        }
-      },
+      fetchData: function (id) {
+          this.$http.get("http://localhost:8080/api/users/" + id)
+                   .then(response => {
+                     this.info = response.data;
+           })
+       },
+       updateData: function (id){
+           axios.put('http://localhost:8080/api/users/'+id, this.info,
+                       {'headers':{'Content-Type': 'application/json'}}
+                       )
+           .then((response) => {console.log(response.data);})
+       },
+      deleteData: function (id) {
+           this.$http.delete("http://localhost:8080/api/users/"+id);
+           console.log("Success");
+       },
       fMoTa(str) {
         var k = 0,
           x = 0,
@@ -52,5 +51,7 @@ var aseData = new Vue({
       }
     }
   });
+
+
 
 

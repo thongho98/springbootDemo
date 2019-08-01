@@ -21,10 +21,11 @@ public class UsersController {
 
     @Autowired
     private UsersService service;
+
     // Show all user
     @GetMapping("/users")
     List<Users> getAllUsers(Model model) {
-        model.addAttribute("message","Lấy danh sách người dùng thành công!");
+        model.addAttribute("message", "Lấy danh sách người dùng thành công!");
         return repository.findAll();
     }
 
@@ -32,7 +33,7 @@ public class UsersController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public Users newUser(@RequestBody Users newUser, Model model) {
-        model.addAttribute("message","Tạo user thành công!");
+        model.addAttribute("message", "Tạo user thành công!");
         return repository.save(newUser);
     }
 
@@ -46,8 +47,8 @@ public class UsersController {
 
     // Update by id
     @PutMapping("/users/{id}")
-    public boolean updateUser(@RequestBody Users newUser, @PathVariable Long id, Model model) {
-        model.addAttribute("message","Cập nhật user thành công!");
+    public Users updateUser(@RequestBody Users newUser, @PathVariable Long id, Model model) {
+        model.addAttribute("message", "Cập nhật user thành công!");
         return repository.findById(id)
                 .map(user -> {
                     user.setDisplayName(newUser.getDisplayName());
@@ -55,13 +56,15 @@ public class UsersController {
                     user.setPhone(newUser.getPhone());
                     return repository.save(user);
                 })
-                .isPresent();
+                .orElseGet(() -> {
+                        return repository.save(newUser);
+                    });
     }
 
     //delete by id
     @DeleteMapping("/users/{id}")
     public void deleteUser(@PathVariable Long id, Model model) {
-        model.addAttribute("message","Xóa user thành công!");
+        model.addAttribute("message", "Xóa user thành công!");
         repository.deleteById(id);
     }
 

@@ -11,37 +11,105 @@
     <script th:src="@{/jslib/ase.js}"></script>
 </head>
 <body>
-    <h1>USER MANAGER</h1>
-    <div id="app">
-        <table style="width:100%">
+<h1>USER MANAGER</h1>
+<div id="app">
+    <form>
+        <table border="0">
             <tr>
-                <a th:href="@{create-user}">Add new User</a>
+                <td>Id</td>
+                <td>{{info.id}}</td>
             </tr>
             <tr>
-                <th>Id</th>
                 <th>DisplayName</th>
-                <th>Username</th>
-                <th>Password</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Active</th>
+                <td><input type="text" v-model="info.displayName"/></td>
             </tr>
-            <tr v-for="user in listUser">
-                <td>{{user.id}}</td>
-                <td>{{user.displayName}}</td>
-                <td>{{user.username}}</td>
-                <td>{{user.password}}</td>
-                <td>{{user.phone}}</td>
-                <td>{{user.email}}</td>
-                <td>
-                    <a th:href="@{edit-user}">Edit User</a>
-                    <a >Delete User</a>
+            <tr>
+                <th>Username</th>
+                <td><input type="text" v-model="info.username" readonly/></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td><input type="text" v-model="info.email"/></td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td><input type="text" v-model="info.phone"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button @click="updateData(info.id)" id="btnUpdate" :value="info.id">Update User</button>
                 </td>
             </tr>
         </table>
-    </div>
+    </form>
+    <br/>
+    <table style="width:100%">
+        <tr>
+            <a th:href="@{/create-user}">Add new User</a>
+        </tr>
+        <tr>
+            <th>Id</th>
+            <th>DisplayName</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+        <tr v-for="user in listUser">
+            <td>{{user.id}}</td>
+            <td>{{user.displayName}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.password}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone}}</td>
+            <td>
+                <button @click="fetchData(user.id)">Edit User</button>
+                <button id="btnDel" :value="user.id">Delete User</button>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<script th:src="@{/js/index.js}"></script>
+<script th:src="@{http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js}"></script>
+<script>
+    $(document).on("click","#btnUpdate",function() {
+        var userId = $(this).val();
+        var workingObject = $(this);
+        $.ajax({
+          type : "PUT",
+          url : "http://localhost:8080/api/users/"+userId,
+          data: JSON.stringify(json),
+          dataType : 'json',
+          success: function(resultMsg){
+            alert("User id: "+ userId +" updated");
+          },
+          error : function(e) {
+            alert("ERROR: ", e);
+            console.log("ERROR: ", e);
+          }
+        });
+  });
+
+    $(document).on("click","#btnDel",function() {
+        var userId = $(this).val();
+        var workingObject = $(this);
+        $.ajax({
+          type : "DELETE",
+          url : window.location + "api/users/" + userId,
+          success: function(resultMsg){
+            alert("User id: "+ userId +" deleted");
+            workingObject.closest("tr").remove();
+          },
+          error : function(e) {
+            alert("ERROR: ", e);
+            console.log("ERROR: ", e);
+          }
+        });
+  });
 
 
-    <script th:src="@{/js/index.js}"></script>
+</script>
+
 </body>
 </html>
