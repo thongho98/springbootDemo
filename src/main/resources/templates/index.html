@@ -21,7 +21,7 @@
             <th>Email</th>
             <th>Phone</th>
         </tr>
-        <tr v-for="user in listUser">
+        <tr v-for="user in listUser" >
             <td>{{user.id}}</td>
             <td>{{user.displayName}}</td>
             <td>{{user.username}}</td>
@@ -46,7 +46,7 @@
             </tr>
             <tr>
                 <th>DisplayName</th>
-                <td><input type="text" v-model="info.displayName"/></td>
+                <td><input type="text" v-model="info.displayName" required/></td>
             </tr>
             <tr>
                 <th>Username</th>
@@ -54,11 +54,11 @@
             </tr>
             <tr>
                 <th>Email</th>
-                <td><input type="text" v-model="info.email"/></td>
+                <td><input type="text" v-model="info.email" required/></td>
             </tr>
             <tr>
                 <th>Phone</th>
-                <td><input type="text" v-model="info.phone"/></td>
+                <td><input type="text" v-model="info.phone" required/></td>
             </tr>
             <tr>
                 <td colspan="2">
@@ -95,7 +95,7 @@
         var workingObject = $(this);
         $.ajax({
           type : "DELETE",
-          url : window.location + "api/users/" + userId,
+          url : "http://localhost:8080/api/users/" + userId,
           success: function(resultMsg){
             alert("User id: "+ userId +" deleted");
             workingObject.closest("tr").remove();

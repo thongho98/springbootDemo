@@ -2,7 +2,8 @@ var Product = new Vue({
     el: '#account',
 
     data: {
-        info: {}
+        info: {},
+        errors:[]
     },
     created: function () {
 
@@ -15,6 +16,14 @@ var Product = new Vue({
                 console.log("Tạo thành công");
             })
          },
+         checkRegister(){
+            if(this.info.password === this.info.confirmPassword){
+                this.isCheckRegister = true;
+            }
+            else{
+                this.error.push("Sai mật khẩu");
+            }
+         }
     }
 
 })

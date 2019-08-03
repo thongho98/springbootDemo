@@ -3,8 +3,7 @@ var aseData = new Vue({
 
     data: {
       listUser: [],
-      info:{},
-      data:{}
+      info:{}
     },
 
     created: function() {
