@@ -35,8 +35,8 @@ public class UsersController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public Users newUser(@RequestBody Users newUser, Model model) {
-            model.addAttribute("message", "Tạo user thành công!");
-            return repository.save(newUser);
+        model.addAttribute("message", "Tạo user thành công!");
+        return repository.save(newUser);
     }
 
     // Find
