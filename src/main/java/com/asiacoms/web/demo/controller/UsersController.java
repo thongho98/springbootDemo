@@ -34,15 +34,9 @@ public class UsersController {
     // Create one user
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
-    public boolean newUser(@RequestBody RegisterRequest newUser, Model model) {
-        Users users = new Users();
-        if (newUser.getPassword().equals(newUser.getConfirmPassword())){
-            BeanUtils.copyProperties(newUser,users);
+    public Users newUser(@RequestBody Users newUser, Model model) {
             model.addAttribute("message", "Tạo user thành công!");
-            repository.save(users);
-            return true;
-        }
-        return false;
+            return repository.save(newUser);
     }
 
     // Find
@@ -55,7 +49,7 @@ public class UsersController {
 
     // Update by id
     @PutMapping("/users/{id}")
-    public Users updateUser(@RequestBody Users newUser, @PathVariable Long id, Model model) {
+    public boolean updateUser(@RequestBody Users newUser, @PathVariable Long id, Model model) {
         model.addAttribute("message", "Cập nhật user thành công!");
         return repository.findById(id)
                 .map(user -> {
@@ -64,9 +58,7 @@ public class UsersController {
                     user.setPhone(newUser.getPhone());
                     return repository.save(user);
                 })
-                .orElseGet(() -> {
-                        return repository.save(newUser);
-                    });
+                .isPresent();
     }
 
     //delete by id
