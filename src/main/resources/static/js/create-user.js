@@ -4,25 +4,22 @@ var Product = new Vue({
     data: {
         info: {},
         isCheckRegister: false,
-        errors:[]
+        error:'abc'
     },
     created: function () {
 
     },
     methods: {
         saveData: function() {
-            axios.post('/api/users', this.info,
-            { 'headers':{'Content-Type': 'application/json'}})
-            .then((response) => {
-                console.log("Tạo thành công");
-            })
-         },
-         checkRegister(){
-            if(this.info.password === this.info.confirmPassword){
-                this.isCheckRegister = true;
-            }
-         }
-    }
+            if(this.info.password != this.info.confirmPassword){
+                this.error='that bai!';
+            }else{
+                axios.post('/api/users', this.info,
+                   { 'headers':{'Content-Type': 'application/json'}})
+                this.error='thanh ccong';
 
-})
-;
+            }
+
+         }
+         }
+});
